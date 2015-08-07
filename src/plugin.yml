@@ -1,0 +1,12 @@
+name: GameTemplate
+version: 0.1.0
+description: Mini-Game
+author: ilicos
+main: fr.ilicos.gameTemplate.GameTemplate
+
+commands:
+   config:
+     description: Manage configuration
+     aliases: [c]
+     permission: gametemplate.config
+     usage: /config <command>
