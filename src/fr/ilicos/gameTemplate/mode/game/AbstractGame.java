@@ -1,7 +1,7 @@
 package fr.ilicos.gameTemplate.mode.game;
 
-import fr.ilicos.gameTemplate.ConnectionDisconnection;
-import fr.ilicos.gameTemplate.GameObject;
+import fr.ilicos.gameTemplate.listener.ConnectionDisconnection;
+import fr.ilicos.gameTemplate.utils.GameObject;
 
 /**
  * Created by ilicos, Théo S. on 08/08/2015.

@@ -1,6 +1,6 @@
 package fr.ilicos.gameTemplate.mode.game;
 
-import fr.ilicos.gameTemplate.PlayerContainer;
+import fr.ilicos.gameTemplate.player.PlayerContainer;
 
 /**
  * Created by ilicos, Théo S. on 09/08/2015.

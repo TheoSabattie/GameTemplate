@@ -1,7 +1,6 @@
 package fr.ilicos.gameTemplate.listener;
 
-import fr.ilicos.gameTemplate.ConnectionDisconnection;
-import fr.ilicos.gameTemplate.PlayerContainer;
+import fr.ilicos.gameTemplate.player.PlayerContainer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

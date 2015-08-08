@@ -1,9 +1,9 @@
 package fr.ilicos.gameTemplate.mode;
 
-import fr.ilicos.gameTemplate.ConnectionDisconnection;
-import fr.ilicos.gameTemplate.GameObject;
+import fr.ilicos.gameTemplate.listener.ConnectionDisconnection;
+import fr.ilicos.gameTemplate.utils.GameObject;
 import fr.ilicos.gameTemplate.MainManager;
-import fr.ilicos.gameTemplate.PlayerContainer;
+import fr.ilicos.gameTemplate.player.PlayerContainer;
 import org.bukkit.command.CommandExecutor;
 
 /**

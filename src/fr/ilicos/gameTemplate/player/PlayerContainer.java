@@ -1,5 +1,6 @@
-package fr.ilicos.gameTemplate;
+package fr.ilicos.gameTemplate.player;
 
+import fr.ilicos.gameTemplate.utils.GameObject;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Map;
  * Created by ilicos, Théo S. on 08/08/2015.
  * When Player connects, PlayerContainer is create to. When player disconnects, PlayerContainer is destroy.
  */
-public class PlayerContainer extends GameObject{
+public class PlayerContainer extends GameObject {
     private final Player player;
 
     private final static Map<Player, PlayerContainer> list = new HashMap<>();

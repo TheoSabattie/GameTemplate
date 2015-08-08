@@ -1,4 +1,4 @@
-package fr.ilicos.gameTemplate;
+package fr.ilicos.gameTemplate.utils;
 
 /**
  * Created by ilicos, Théo S. on 07/08/2015.

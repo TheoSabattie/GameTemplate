@@ -1,7 +1,7 @@
 package fr.ilicos.gameTemplate.mode.config;
 
 import fr.ilicos.gameTemplate.MainManager;
-import fr.ilicos.gameTemplate.PlayerContainer;
+import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.commandExecutor.ConfigCommandExecutor;
 import fr.ilicos.gameTemplate.mode.AbtractMode;
 import org.bukkit.Bukkit;

@@ -1,7 +1,7 @@
 package fr.ilicos.gameTemplate.mode.game;
 
 import fr.ilicos.gameTemplate.MainManager;
-import fr.ilicos.gameTemplate.PlayerContainer;
+import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.scheduler.ChronoStarterScheduler;
 import org.bukkit.Bukkit;
 
