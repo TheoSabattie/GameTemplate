@@ -1,32 +1,59 @@
 package fr.ilicos.gameTemplate;
 
+import fr.ilicos.gameTemplate.listener.ConnectionDisconnectionListener;
 import fr.ilicos.gameTemplate.mode.AbtractMode;
 import fr.ilicos.gameTemplate.mode.config.Config;
 import fr.ilicos.gameTemplate.mode.config.ConfigMode;
 import fr.ilicos.gameTemplate.mode.game.GameMode;
+import fr.ilicos.gameTemplate.scheduler.AbstractScheduler;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 /**
- * Created by Theo  Sabattie on 07/08/2015.
+ * Created by ilicos, Théo S. on 07/08/2015.
  */
-public class MainManager {
-    private static MainManager instance = new MainManager();
+public class MainManager extends GameObject{
+    private final Listener connectionDisconnectionListener = new ConnectionDisconnectionListener() {
+        @Override
+        public void onPlayerConnection(PlayerContainer playerContainer) {
+            currentMode.onPlayerConnection(playerContainer);
+        }
+
+        @Override
+        public void onPlayerDisconnection(PlayerContainer playerContainer) {
+            currentMode.onPlayerDisconnection(playerContainer);
+        }
+    };
+
+    private static MainManager instance;
     private GameTemplate plugin;
     private AbtractMode currentMode;
 
     public static MainManager getInstance() {
+        if (instance == null){
+            instance = new MainManager();
+        }
         return instance;
     }
 
     private MainManager() {
+        reloadPrevention();
+    }
+
+    private void reloadPrevention() {
+        for (Player player : Bukkit.getOnlinePlayers()){
+            new PlayerContainer(player);
+        }
     }
 
     public void init(GameTemplate plugin){
         this.plugin = plugin;
         plugin.saveDefaultConfig();
+        addListener(connectionDisconnectionListener);
 
         if (configIsCompleted(getConfig())){
             setupConfigMode();
@@ -35,7 +62,7 @@ public class MainManager {
         }
     }
 
-    private Config getConfig(){
+    public Config getConfig(){
         Config config = (Config) getFileConfig().get("config");
 
         return (config == null)? new Config() : config;
@@ -92,5 +119,16 @@ public class MainManager {
 
     public void setConfigCommandExecutor(CommandExecutor commandExecutor) {
         plugin.getCommand("config").setExecutor(commandExecutor);
+    }
+
+    @Override
+    public void destroy() {
+        currentMode.destroy();
+        removeListener(connectionDisconnectionListener);
+        instance = null;
+    }
+
+    public void addRunTaskTimerScheduler(AbstractScheduler abstractScheduler, int beginDelay, int delayBetweenTasks) {
+        abstractScheduler.runTaskTimer(plugin, beginDelay, delayBetweenTasks);
     }
 }

@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Theo  Sabattie on 07/08/2015.
+ * Created by ilicos, Théo S. on 07/08/2015.
  */
 public class Config implements ConfigurationSerializable {
-    private float exempleMaxArrow;
+    private int minPlayers;
+    private int delayBeforeStart;
 
     public Config(){
 
@@ -17,13 +18,25 @@ public class Config implements ConfigurationSerializable {
 
     public Map<String, Object> serialize() {
         HashMap data = new HashMap();
-        data.put("exempleMaxArrow", this.exempleMaxArrow);
+        data.put("minPlayers", this.minPlayers);
+        data.put("delayBeforeStart", this.minPlayers);
         return data;
     }
 
     public static Config deserialize(Map<String, Object> args) {
         Config config = new Config();
-        config.exempleMaxArrow = (float) args.get("exempleMaxArrow");
+
+        config.minPlayers       = (int) args.get("minPlayers");
+        config.delayBeforeStart = (int) args.get("delayBeforeStart");
+
         return config;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
+    }
+
+    public int getDelayBeforeStart() {
+        return delayBeforeStart;
     }
 }
