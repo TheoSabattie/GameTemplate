@@ -26,7 +26,6 @@ public class WaitingChronoGame extends AbstractGame{
     @Override
     public void onPlayerDisconnection(PlayerContainer playerContainer) {
         if (!gameMode.readyToBeginGame()){
-            chronoStarter.stop();
             Bukkit.broadcastMessage("Delay stopped, there isn't enought players");
             gameMode.setupWaitingPlayersGame();
         }
@@ -34,6 +33,6 @@ public class WaitingChronoGame extends AbstractGame{
 
     @Override
     public void destroy() {
-
+        chronoStarter.stop();
     }
 }

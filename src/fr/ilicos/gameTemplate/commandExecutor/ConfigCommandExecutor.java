@@ -1,16 +1,18 @@
 package fr.ilicos.gameTemplate.commandExecutor;
 
-import fr.ilicos.gameTemplate.mode.config.ConfigMode;
+import fr.ilicos.gameTemplate.MainManager;
+import fr.ilicos.gameTemplate.mode.config.Config;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
  * Created by ilicos, Théo S. on 07/08/2015.
  */
 public class ConfigCommandExecutor extends AbstractCommandExecutor {
-    private final ConfigMode configMode;
+    private Config config;
 
-    public ConfigCommandExecutor(ConfigMode configMode){
-        this.configMode = configMode;
+    public void setConfig(Config config) {
+        this.config = config;
     }
 
     @Override
@@ -19,19 +21,33 @@ public class ConfigCommandExecutor extends AbstractCommandExecutor {
             /**
              * Search arguments and work with them
              */
-            if (args[0] == "validate" && args.length == 1){
-                configMode.validConfig(player);
+            if (args[0].equals("validation") && args.length == 1){
+                onConfigValidation(player);
                 return true;
             }
-        } else {
-            /**
-             * Bad usage, show all Commands
-             */
-            player.sendMessage("Bad Usage! List of commands : ");
-            player.sendMessage("/config validate");
-            //(...)
         }
 
+        player.sendMessage("Bad Usage! List of commands : ");
+
+        for (String invalidValue : config.getInvalidValues()){
+            player.sendMessage("/config " + invalidValue + " {args...}");
+        }
+
+        player.sendMessage("/config validation");
+
         return false;
+    }
+
+    private void onConfigValidation(Player player) {
+        if (config.isCompleted()){
+            Bukkit.broadcastMessage("End of configuration, setup Game mode");
+            MainManager.getInstance().setupGameMode();
+        } else {
+            player.sendMessage("Configuration is not completed, it misses : ");
+
+            for (String valueName : config.getInvalidValues()){
+                player.sendMessage(" - " + valueName);
+            }
+        }
     }
 }

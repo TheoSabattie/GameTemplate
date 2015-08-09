@@ -57,7 +57,7 @@ public class MainManager extends GameObject {
         plugin.saveDefaultConfig();
         addListener(connectionDisconnectionListener);
 
-        if (configIsCompleted(getConfig())){
+        if (getConfig().isCompleted()){
             setupConfigMode();
         } else {
             setupGameMode();
@@ -79,13 +79,6 @@ public class MainManager extends GameObject {
     public void saveConfig(Config config){
         getFileConfig().set("config", config);
         plugin.saveConfig();
-    }
-
-    public boolean configIsCompleted(Config config) {
-        /**
-         * If some specific locations is need for team, you can't start game before set its
-         */
-        return true;
     }
 
     public void setupConfigMode (){
