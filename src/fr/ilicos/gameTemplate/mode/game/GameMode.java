@@ -6,7 +6,7 @@ import fr.ilicos.gameTemplate.commandExecutor.GameCommandExecutor;
 import fr.ilicos.gameTemplate.mode.AbtractMode;
 
 /**
- * Created by ilicos, Théo S. on 07/08/2015.
+ * Created by ilicos, ThÃ©o S. on 07/08/2015.
  */
 public class GameMode extends AbtractMode {
     private AbstractGame currentGame = new WaitingPlayersGame(this);
@@ -51,7 +51,9 @@ public class GameMode extends AbtractMode {
     }
 
     private void destroyCurrentGame() {
-        currentGame.destroy();
+        if (currentGame != null){
+            currentGame.destroy();
+        }
     }
 
     public boolean readyToBeginGame() {
