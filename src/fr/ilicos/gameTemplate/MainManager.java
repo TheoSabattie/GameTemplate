@@ -16,7 +16,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 /**
- * Created by ilicos, Théo S. on 07/08/2015.
+ * Created by ilicos, ThÃ©o S. on 07/08/2015.
  */
 public class MainManager extends GameObject {
     private final Listener connectionDisconnectionListener = new ConnectionDisconnectionListener() {
@@ -58,16 +58,20 @@ public class MainManager extends GameObject {
         addListener(connectionDisconnectionListener);
 
         if (getConfig().isCompleted()){
-            setupConfigMode();
-        } else {
             setupGameMode();
+        } else {
+            setupConfigMode();
         }
     }
 
     public Config getConfig(){
-        Config config = (Config) getFileConfig().get("config");
+        Object object = getFileConfig().get("config");
 
-        return (config == null)? new Config() : config;
+        if (object != null && object instanceof Config){
+            return (Config) object;
+        } else {
+            return new Config();
+        }
     }
 
     private FileConfiguration getFileConfig(){
