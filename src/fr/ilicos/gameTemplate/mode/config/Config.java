@@ -16,12 +16,12 @@ public enum Config{
     DELAY_BEFORE_START(new CommandConfigModel("setDelayBeforeStart", 1, ArgType.POSITIVE_INT)),
     TEAM_NUMBER(new CommandConfigModel("setTeamNumber", 1, ArgType.POSITIVE_INT)){
         @Override
-        public void onArgs(String[] args, Player player) {
+        public boolean onArgs(String[] args, Player player) {
             super.onArgs(args, player);
 
             try{
                 int newTeamSize = Integer.parseInt(args[0]);
-                List<Team> teams = (List<Team>) TEAMS.getValue();
+                List<Team> teams = (List) TEAMS.getValue();
 
                 if (teams == null){
                     teams = new ArrayList<>();
@@ -51,25 +51,42 @@ public enum Config{
                 }
 
                 TEAMS.setValue(teams);
+                TEAM_NUMBER.setValue(newTeamSize);
+                return true;
             }catch (NumberFormatException ignored){}
+
+            return false;
         }
     },
     PLAYERS_TEAM_NUMBER(new CommandConfigModel("setPlayersTeamNumber", 1, ArgType.POSITIVE_INT)),
     TEAMS(new CommandConfigModel("setSpawnTeam", 1, ArgType.INT)){
         @Override
-        public void onArgs(String[] args, Player player) {
+        public boolean onArgs(String[] args, Player player) {
             try {
                 int teamID = Integer.parseInt(args[0]);
-                List<Team> teams = (List<Team>) TEAMS.getValue();
+                List<Team> teams = (List) TEAMS.getValue();
+                List<Integer> teamsID = new ArrayList<>();
 
-                for (Team team : teams){
-                    if (team.getID() == teamID){
-                        team.setSpawn(player.getLocation());
-                        TEAMS.setValue(teams);
-                        return;
+                if (teams != null){
+                    for (Team team : teams){
+                        teamsID.add(team.getID());
+
+                        if (team.getID() == teamID){
+                            team.setSpawn(player.getLocation());
+                            TEAMS.setValue(teams);
+                            return true;
+                        }
                     }
+                } else {
+                    player.sendMessage("Error: TeamNumber is not set, you must set it before configure spawn.");
+                    return false;
                 }
+
+                player.sendMessage("Error: ID not found, list of IDs : " + teamsID.toString());
+
             }catch (NumberFormatException ignored){}
+
+            return false;
         }
 
         @Override
@@ -79,7 +96,7 @@ public enum Config{
 
         @Override
         public boolean isValid() {
-            List<Team> teams = (List<Team>) TEAMS.getValue();
+            List<Team> teams = (List) TEAMS.getValue();
 
             for (Team team : teams){
                 if (team.getSpawn() == null){
@@ -97,8 +114,16 @@ public enum Config{
         return commandModel;
     }
 
-    public void onArgs(String[] args, Player player){
-        setValue(args[0]);
+    public boolean onArgs(String[] args, Player player){
+        if(commandModel.getArgType() == ArgType.INT
+                || commandModel.getArgType() == ArgType.POSITIVE_INT
+                || commandModel.getArgType() == ArgType.NEGATIVE_INT){
+            setValue(Integer.parseInt(args[0]));
+        } else {
+            setValue(args[0]);
+        }
+
+        return true;
     }
 
     private void setValue(Object object){

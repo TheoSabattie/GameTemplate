@@ -22,9 +22,7 @@ public class CommandConfigModel extends CommandModel {
     @Override
     protected boolean isSuccessCommand(String[] args, Player player) {
         if (config!= null){
-            config.onArgs(args, player);
-
-            return true;
+            return config.onArgs(args, player);
         }
 
         return false;
