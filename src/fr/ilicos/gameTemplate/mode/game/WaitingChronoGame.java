@@ -1,6 +1,6 @@
 package fr.ilicos.gameTemplate.mode.game;
 
-import fr.ilicos.gameTemplate.MainManager;
+import fr.ilicos.gameTemplate.mode.config.Config;
 import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.scheduler.ChronoStarterScheduler;
 import org.bukkit.Bukkit;
@@ -14,7 +14,7 @@ public class WaitingChronoGame extends AbstractGame{
         public void onChronoFinished() {
             gameMode.setupGame();
         }
-    }, MainManager.getInstance().getConfig().getDelayBeforeStart());
+    }, (int) Config.DELAY_BEFORE_START.getValue());
 
     public WaitingChronoGame(GameMode gameMode) {
         super(gameMode);

@@ -1,12 +1,12 @@
 package fr.ilicos.gameTemplate.mode.game;
 
-import fr.ilicos.gameTemplate.MainManager;
-import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.commandExecutor.GameCommandExecutor;
 import fr.ilicos.gameTemplate.mode.AbtractMode;
+import fr.ilicos.gameTemplate.mode.config.Config;
+import fr.ilicos.gameTemplate.player.PlayerContainer;
 
 /**
- * Created by ilicos, ThÃ©o S. on 07/08/2015.
+ * Created by ilicos, Théo S. on 07/08/2015.
  */
 public class GameMode extends AbtractMode {
     private AbstractGame currentGame = new WaitingPlayersGame(this);
@@ -51,7 +51,7 @@ public class GameMode extends AbtractMode {
     }
 
     private void destroyCurrentGame() {
-        if (currentGame != null){
+        if (currentGame != null) {
             currentGame.destroy();
         }
     }
@@ -60,6 +60,6 @@ public class GameMode extends AbtractMode {
         /**
          * If you need some conditions to start game, it's here!
          */
-        return PlayerContainer.getPlayerContainers().size() >= MainManager.getInstance().getConfig().getMinPlayers();
+        return PlayerContainer.getPlayerContainers().size() >= (int) Config.MIN_PLAYER.getValue();
     }
 }

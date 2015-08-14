@@ -1,83 +1,131 @@
 package fr.ilicos.gameTemplate.mode.config;
 
 import fr.ilicos.gameTemplate.MainManager;
-import fr.ilicos.gameTemplate.utils.MathNum;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import fr.ilicos.gameTemplate.commandExecutor.CommandConfigModel;
+import fr.ilicos.gameTemplate.team.Team;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by ilicos, Théo S. on 07/08/2015.
  */
-public class Config implements ConfigurationSerializable {
+public enum Config{
+    MIN_PLAYER(new CommandConfigModel("setMinPlayer", 1, ArgType.POSITIVE_INT)),
+    DELAY_BEFORE_START(new CommandConfigModel("setDelayBeforeStart", 1, ArgType.POSITIVE_INT)),
+    TEAM_NUMBER(new CommandConfigModel("setTeamNumber", 1, ArgType.POSITIVE_INT)){
+        @Override
+        public void onArgs(String[] args, Player player) {
+            super.onArgs(args, player);
 
-    private int minPlayers;
-    private int delayBeforeStart;
+            try{
+                int newTeamSize = Integer.parseInt(args[0]);
+                List<Team> teams = (List<Team>) TEAMS.getValue();
 
-    public Config(){}
+                if (teams == null){
+                    teams = new ArrayList<>();
+                }
 
-    public Map<String, Object> serialize() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("minPlayers", this.getMinPlayers());
-        data.put("delayBeforeStart", this.getDelayBeforeStart());
-        return data;
-    }
+                int nextTeamID = 0;
 
-    public static Config deserialize(Map<String, Object> args) {
-        Config config = new Config();
+                for (Team team : teams){
+                    if (team.getID() > nextTeamID){
+                        nextTeamID = team.getID() + 1;
+                    }
+                }
 
-        config.setMinPlayers((int) args.get("minPlayers"));
-        config.setDelayBeforeStart((int) args.get("delayBeforeStart"));
+                while (teams.size() < newTeamSize){
+                    for (Team.TeamColor teamColor : Team.TeamColor.values()){
+                        teams.add(teamColor.createTeam(nextTeamID));
+                        nextTeamID++;
 
-        return config;
-    }
+                        if (teams.size() == newTeamSize){
+                            break;
+                        }
+                    }
+                }
 
-    public int getMinPlayers() {
-        return minPlayers;
-    }
-    public boolean setMinPlayers(int minPlayers) {
-        if (MathNum.positiveInt(minPlayers)){
-            this.minPlayers = minPlayers;
-            onValueChanged();
+                while (teams.size() > newTeamSize){
+                    teams.remove(teams.size() - 1);
+                }
+
+                TEAMS.setValue(teams);
+            }catch (NumberFormatException ignored){}
+        }
+    },
+    PLAYERS_TEAM_NUMBER(new CommandConfigModel("setPlayersTeamNumber", 1, ArgType.POSITIVE_INT)),
+    TEAMS(new CommandConfigModel("setSpawnTeam", 1, ArgType.INT)){
+        @Override
+        public void onArgs(String[] args, Player player) {
+            try {
+                int teamID = Integer.parseInt(args[0]);
+                List<Team> teams = (List<Team>) TEAMS.getValue();
+
+                for (Team team : teams){
+                    if (team.getID() == teamID){
+                        team.setSpawn(player.getLocation());
+                        TEAMS.setValue(teams);
+                        return;
+                    }
+                }
+            }catch (NumberFormatException ignored){}
+        }
+
+        @Override
+        public Object getValue() {
+            return MainManager.getInstance().getFileConfig().getList(this.name().toLowerCase());
+        }
+
+        @Override
+        public boolean isValid() {
+            List<Team> teams = (List<Team>) TEAMS.getValue();
+
+            for (Team team : teams){
+                if (team.getSpawn() == null){
+                    return false;
+                }
+            }
+
             return true;
         }
-        return false;
+    };
+
+    private final CommandConfigModel commandModel;
+
+    public CommandConfigModel getCommandModel(){
+        return commandModel;
     }
 
-    public int getDelayBeforeStart() {
-        return delayBeforeStart;
+    public void onArgs(String[] args, Player player){
+        setValue(args[0]);
     }
 
-    public boolean setDelayBeforeStart(int delayBeforeStart) {
-        if (MathNum.positiveInt(delayBeforeStart)){
-            this.delayBeforeStart = delayBeforeStart;
-            onValueChanged();
-            return true;
+    private void setValue(Object object){
+        MainManager mainManager = MainManager.getInstance();
+        mainManager.getFileConfig().set(this.name().toLowerCase(), object);
+        mainManager.saveConfig();
+    }
+
+    public Object getValue(){
+        return MainManager.getInstance().getFileConfig().get(this.name().toLowerCase());
+    }
+
+    public boolean isValid(){
+        return getValue() != null;
+    }
+
+    public static boolean isCompleted(){
+        for (Config config: values()){
+            if (!config.isValid()){
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
-    private void onValueChanged(){
-        MainManager.getInstance().saveConfig(this);
-    }
-
-    public boolean isCompleted(){
-        return getInvalidValues().size() == 0;
-    }
-
-    public List<String> getInvalidValues(){
-        List<String> invalidValues = new ArrayList<>();
-
-        if (delayBeforeStart <= 0){
-            invalidValues.add("delayBeforeStart");
-        }
-        if (minPlayers <= 0){
-            invalidValues.add("minPlayers");
-        }
-
-        return invalidValues;
+    Config(CommandConfigModel commandModel){
+        this.commandModel = commandModel;
+        commandModel.setConfig(this);
     }
 }

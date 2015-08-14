@@ -9,9 +9,8 @@ import org.bukkit.ChatColor;
  * Created by ilicos, Théo S. on 07/08/2015.
  */
 public class ConfigMode extends AbtractMode {
-    public ConfigMode(Config config) {
+    public ConfigMode() {
         super();
-        ((ConfigCommandExecutor)commandExecutor).setConfig(config);
     }
 
     @Override

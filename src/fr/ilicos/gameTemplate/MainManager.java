@@ -16,7 +16,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 /**
- * Created by ilicos, ThÃ©o S. on 07/08/2015.
+ * Created by ilicos, Théo S. on 07/08/2015.
  */
 public class MainManager extends GameObject {
     private final Listener connectionDisconnectionListener = new ConnectionDisconnectionListener() {
@@ -57,14 +57,14 @@ public class MainManager extends GameObject {
         plugin.saveDefaultConfig();
         addListener(connectionDisconnectionListener);
 
-        if (getConfig().isCompleted()){
+        if (Config.isCompleted()){
             setupGameMode();
         } else {
             setupConfigMode();
         }
     }
 
-    public Config getConfig(){
+    /*public Config getConfig(){
         Object object = getFileConfig().get("config");
 
         if (object != null && object instanceof Config){
@@ -72,22 +72,21 @@ public class MainManager extends GameObject {
         } else {
             return new Config();
         }
-    }
+    }*/
 
-    private FileConfiguration getFileConfig(){
+    public FileConfiguration getFileConfig(){
         FileConfiguration fileConfig = plugin.getConfig();
         fileConfig.options().copyDefaults(true);
         return fileConfig;
     }
 
-    public void saveConfig(Config config){
-        getFileConfig().set("config", config);
+    public void saveConfig(){
         plugin.saveConfig();
     }
 
     public void setupConfigMode (){
         destroyCurrentMode();
-        currentMode = new ConfigMode(getConfig());
+        currentMode = new ConfigMode(/*getConfig()*/);
     }
 
     public void setupGameMode (){
