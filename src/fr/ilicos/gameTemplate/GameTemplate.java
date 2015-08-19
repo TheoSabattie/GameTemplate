@@ -1,8 +1,8 @@
 package fr.ilicos.gameTemplate;
 
-import fr.ilicos.gameTemplate.mode.config.Config;
 import fr.ilicos.gameTemplate.team.Team;
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -24,7 +24,7 @@ public class GameTemplate extends JavaPlugin {
 
     private void registerClassToDeserialization(){
         Team.class.getClass();
-        Config.class.getClass();
         Location.class.getClass();
+        ItemStack.class.getClass();
     }
 }

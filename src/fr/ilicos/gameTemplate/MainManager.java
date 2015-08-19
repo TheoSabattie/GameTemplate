@@ -7,7 +7,7 @@ import fr.ilicos.gameTemplate.mode.config.ConfigMode;
 import fr.ilicos.gameTemplate.mode.game.GameMode;
 import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.scheduler.AbstractScheduler;
-import fr.ilicos.gameTemplate.utils.GameObject;
+import fr.ilicos.gameTemplate.utils.Destroyable;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,7 +18,7 @@ import org.bukkit.event.Listener;
 /**
  * Created by ilicos, Théo S. on 07/08/2015.
  */
-public class MainManager extends GameObject {
+public class MainManager extends Destroyable {
     private final Listener connectionDisconnectionListener = new ConnectionDisconnectionListener() {
         @Override
         public void onPlayerConnection(PlayerContainer playerContainer) {

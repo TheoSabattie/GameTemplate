@@ -1,9 +1,10 @@
 package fr.ilicos.gameTemplate.team;
 
+import fr.ilicos.gameTemplate.menu.iteminteractive.iteminteractives.ItemTeam;
 import fr.ilicos.gameTemplate.player.PlayerContainer;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +16,9 @@ import java.util.Map;
  */
 public class Team implements ConfigurationSerializable {
     private static final String SPAWN = "spawn";
-    private static final String CHAT_COLOR = "chatColor";
+    private static final String TEAM_COLOR = "chatColor";
     private static final String ID_TEAM = "id";
+    private static final String ITEM_SELECTION = "itemSelection";
 
     private static int maxPlayers = 1;
 
@@ -24,19 +26,40 @@ public class Team implements ConfigurationSerializable {
         maxPlayers = newMaxPlayers;
     }
 
-    private final List<PlayerContainer> PlayerContainers = new ArrayList<>();
-    private Location spawn;
-    private ChatColor chatColor;
+    private final List<PlayerContainer> playerContainers = new ArrayList<>();
     private final int ID;
+    private Location spawn;
+    private TeamColor teamColor;
+    private final ItemTeam itemTeam;
 
-    public Team(ChatColor chatColor, int ID){
-        this.ID = ID;
-        this.chatColor = chatColor;
+    public Team(TeamColor teamColor, int ID, Location spawn){
+        this(teamColor, ID);
+        this.spawn = spawn;
     }
 
-    public Team(ChatColor chatColor, int ID, Location spawn){
-        this(chatColor, ID);
-        this.spawn = spawn;
+    public Team(TeamColor teamColor, int ID){
+        this.teamColor = teamColor;
+        this.ID = ID;
+        itemTeam = new ItemTeam(teamColor.getItemSelection(), this);
+    }
+
+    public void addPlayer(Player player){
+        PlayerContainer playerContainer = PlayerContainer.getPlayerContainerFromPlayer(player);
+
+        if (playerContainers.size() < maxPlayers){
+            if (!playerContainers.contains(playerContainer)){
+                player.sendMessage("Vous avez rejoint l'équipe " + getTeamColor().name());
+                playerContainers.add(playerContainer);
+            } else {
+                player.sendMessage("Vous êtes déjà dans l'équipe " + getTeamColor().name());
+            }
+        } else {
+            player.sendMessage("Équipe pleine!");
+        }
+    }
+
+    public TeamColor getTeamColor() {
+        return teamColor;
     }
 
     public Location getSpawn() {
@@ -47,14 +70,6 @@ public class Team implements ConfigurationSerializable {
         this.spawn = location;
     }
 
-    public ChatColor getChatColor() {
-        return chatColor;
-    }
-
-    public void setChatColor(ChatColor chatColor) {
-        this.chatColor = chatColor;
-    }
-
     public int getID() {
         return ID;
     }
@@ -62,7 +77,7 @@ public class Team implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
-        data.put(CHAT_COLOR, chatColor.name());
+        data.put(TEAM_COLOR, teamColor.name());
         data.put(SPAWN, spawn);
         data.put(ID_TEAM, ID);
 
@@ -70,27 +85,10 @@ public class Team implements ConfigurationSerializable {
     }
 
     public static Team deserialize(Map<String, Object> args) {
-        return new Team(ChatColor.valueOf((String)args.get(CHAT_COLOR)), (int)args.get(ID_TEAM), (Location)args.get(SPAWN));
+        return new Team(TeamColor.valueOf((String)args.get(TEAM_COLOR)), (int)args.get(ID_TEAM), (Location)args.get(SPAWN));
     }
 
-    public static enum TeamColor{
-        BLUE(ChatColor.BLUE),
-        RED(ChatColor.RED),
-        GREEN(ChatColor.GREEN),
-        YELLOW(ChatColor.YELLOW);
-
-        private ChatColor chatColor;
-
-        public ChatColor getChatColor(){
-            return chatColor;
-        }
-
-        TeamColor(ChatColor chatColor){
-            this.chatColor = chatColor;
-        }
-
-        public Team createTeam(int ID){
-            return new Team(chatColor, ID);
-        }
+    public ItemTeam getItemTeam() {
+        return itemTeam;
     }
 }

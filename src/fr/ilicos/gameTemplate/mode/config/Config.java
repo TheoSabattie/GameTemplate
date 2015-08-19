@@ -3,6 +3,7 @@ package fr.ilicos.gameTemplate.mode.config;
 import fr.ilicos.gameTemplate.MainManager;
 import fr.ilicos.gameTemplate.commandExecutor.CommandConfigModel;
 import fr.ilicos.gameTemplate.team.Team;
+import fr.ilicos.gameTemplate.team.TeamColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public enum Config{
                 }
 
                 while (teams.size() < newTeamSize){
-                    for (Team.TeamColor teamColor : Team.TeamColor.values()){
+                    for (TeamColor teamColor : TeamColor.values()){
                         teams.add(teamColor.createTeam(nextTeamID));
                         nextTeamID++;
 

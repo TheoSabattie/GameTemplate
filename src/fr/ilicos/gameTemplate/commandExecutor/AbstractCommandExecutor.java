@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
  * Created by ilicos, Théo S. on 08/08/2015.
  */
 public abstract class AbstractCommandExecutor implements CommandExecutor {
+    protected AbstractCommandExecutor(){}
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (commandSender instanceof Player){
