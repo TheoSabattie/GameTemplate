@@ -70,6 +70,7 @@ public class MainManager extends Destroyable {
         this.plugin = plugin;
         plugin.saveDefaultConfig();
         addListener(connectionDisconnectionListener);
+        getWorld().setAutoSave(false);
 
         if (Config.isCompleted()){
             setupGameMode();
