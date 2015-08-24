@@ -130,7 +130,7 @@ public class MainManager extends Destroyable {
         */
     }
 
-    private World getWorld(){
+    public World getWorld(){
         return Bukkit.getWorld(WORLD_NAME);
     }
 

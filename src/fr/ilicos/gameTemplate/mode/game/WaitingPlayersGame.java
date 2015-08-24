@@ -1,5 +1,6 @@
 package fr.ilicos.gameTemplate.mode.game;
 
+import fr.ilicos.gameTemplate.kit.kits.KitParam;
 import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.scoreboard.ScoreboardManager;
 import fr.ilicos.gameTemplate.scoreboard.tab.TabWaitingPlayer;

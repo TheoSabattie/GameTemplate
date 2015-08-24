@@ -1,7 +1,5 @@
 package fr.ilicos.gameTemplate.itemInteractive.iteminteractives;
 
-import fr.ethyngames.api.players.EthynGamesPlayer;
-import fr.ethyngames.api.players.PlayerInfos;
 import fr.ilicos.gameTemplate.itemInteractive.ItemInteractive;
 import fr.ilicos.gameTemplate.menu.inventories.InventoryMenuKitNoVIPSelection;
 import org.bukkit.Material;
@@ -19,8 +17,6 @@ public class ItemKitSelection extends ItemInteractive {
 
     @Override
     public void onInteract(Player player) {
-        EthynGamesPlayer ethynPlayer = PlayerInfos.get(player);
-
         /*if (ethynPlayer.isVip()){
             new InventoryMenuKitVIPSelection(player);
         } else {*/

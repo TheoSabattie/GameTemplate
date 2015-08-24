@@ -35,7 +35,10 @@ public class ConfigCommandExecutor extends AbstractCommandExecutor {
             @Override
             protected boolean isSuccessCommand(String[] args, Player player) {
                 if (Config.isCompleted()){
-                    MainManager.getInstance().setupGameMode();
+                    MainManager mainManager = MainManager.getInstance();
+                    mainManager.setupGameMode();
+                    mainManager.getWorld().save();
+
                     Bukkit.broadcastMessage("Switching in Game Mode...");
                 } else {
                     player.sendMessage("They miss some values setting:");
