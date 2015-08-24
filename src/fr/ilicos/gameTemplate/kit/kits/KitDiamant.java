@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 /**
- * Created by ilicos, Théo S. on 15/08/2015.
+ * Created by ilicos, ThÃ©o S. on 15/08/2015.
  */
 public class KitDiamant extends Kit {
     public KitDiamant() {

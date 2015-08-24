@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Created by ilicos, Théo S. on 07/08/2015.
+ * Created by ilicos, ThÃ©o S. on 07/08/2015.
  */
 public class GameTemplate extends JavaPlugin {
     @Override

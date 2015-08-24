@@ -1,7 +1,7 @@
 package fr.ilicos.gameTemplate.mode.config;
 
 import fr.ilicos.gameTemplate.MainManager;
-import fr.ilicos.gameTemplate.commandExecutor.CommandConfigModel;
+import fr.ilicos.gameTemplate.commandExecutor.commands.CommandConfigModel;
 import fr.ilicos.gameTemplate.team.Team;
 import fr.ilicos.gameTemplate.team.TeamColor;
 import org.bukkit.entity.Player;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ilicos, Théo S. on 07/08/2015.
+ * Created by ilicos, ThÃ©o S. on 07/08/2015.
  */
 public enum Config{
     MIN_PLAYER(new CommandConfigModel("setMinPlayer", 1, ArgType.POSITIVE_INT)),
@@ -60,6 +60,13 @@ public enum Config{
         }
     },
     PLAYERS_TEAM_NUMBER(new CommandConfigModel("setPlayersTeamNumber", 1, ArgType.POSITIVE_INT)),
+    WAITING_ROOM_SPAWN(new CommandConfigModel("setWaitingRoomSpawn", 0, ArgType.NULL)){
+        @Override
+        public boolean onArgs(String[] args, Player player) {
+            WAITING_ROOM_SPAWN.setValue(player.getLocation());
+            return true;
+        }
+    },
     TEAMS(new CommandConfigModel("setSpawnTeam", 1, ArgType.INT)){
         @Override
         public boolean onArgs(String[] args, Player player) {
@@ -92,7 +99,13 @@ public enum Config{
 
         @Override
         public Object getValue() {
-            return MainManager.getInstance().getFileConfig().getList(this.name().toLowerCase());
+            List<Team> teams = (List)MainManager.getInstance().getFileConfig().getList(this.name().toLowerCase());
+
+            if (teams != null){
+                return teams;
+            }
+
+            return new ArrayList<Team>();
         }
 
         @Override

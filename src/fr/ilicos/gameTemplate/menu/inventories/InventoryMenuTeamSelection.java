@@ -1,8 +1,7 @@
-package fr.ilicos.gameTemplate.menu.inventory.inventories;
+package fr.ilicos.gameTemplate.menu.inventories;
 
-import fr.ilicos.gameTemplate.menu.inventory.InventoryMenu;
-import fr.ilicos.gameTemplate.menu.iteminteractive.iteminteractives.ItemTeam;
-import fr.ilicos.gameTemplate.mode.config.Config;
+import fr.ilicos.gameTemplate.itemInteractive.iteminteractives.ItemTeam;
+import fr.ilicos.gameTemplate.menu.InventoryMenu;
 import fr.ilicos.gameTemplate.team.Team;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ilicos, Théo S. on 15/08/2015.
+ * Created by ilicos, ThÃ©o S. on 15/08/2015.
  */
 public class InventoryMenuTeamSelection extends InventoryMenu {
     public InventoryMenuTeamSelection(Player player) {
@@ -24,15 +23,13 @@ public class InventoryMenuTeamSelection extends InventoryMenu {
     }
 
     @Override
-    protected void setupCaseNumber() {
-        caseNumber = 9;
-    }
+    protected void setupCaseNumber() {caseNumber = Team.getTeams().size();}
 
     @Override
     protected void setupItemStacks(Inventory inventory) {
         List<ItemTeam> itemTeams = new ArrayList<>();
 
-        for (Team team : (List<Team>) Config.TEAMS.getValue()){
+        for (Team team : Team.getTeams()){
             itemTeams.add(team.getItemTeam());
         }
 

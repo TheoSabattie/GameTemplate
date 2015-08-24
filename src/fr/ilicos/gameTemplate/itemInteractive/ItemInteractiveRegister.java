@@ -1,4 +1,4 @@
-package fr.ilicos.gameTemplate.menu.iteminteractive;
+package fr.ilicos.gameTemplate.itemInteractive;
 
 import fr.ilicos.gameTemplate.utils.Destroyable;
 import org.bukkit.inventory.ItemStack;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by ilicos, Théo S. on 16/08/2015.
+ * Created by ilicos, ThÃ©o S. on 16/08/2015.
  */
 public class ItemInteractiveRegister extends Destroyable{
     private static ItemInteractiveRegister instance;

@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
- * Created by ilicos, Théo S. on 08/08/2015.
+ * Created by ilicos, ThÃ©o S. on 08/08/2015.
  */
 public abstract class ConnectionDisconnectionListener implements Listener, ConnectionDisconnection {
     @EventHandler

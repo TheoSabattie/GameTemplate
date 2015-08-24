@@ -1,8 +1,7 @@
-package fr.ilicos.gameTemplate.menu.inventory.inventories;
+package fr.ilicos.gameTemplate.menu.inventories;
 
+import fr.ilicos.gameTemplate.itemInteractive.iteminteractives.ItemKit;
 import fr.ilicos.gameTemplate.kit.Kits;
-import fr.ilicos.gameTemplate.menu.inventory.InventoryMenu;
-import fr.ilicos.gameTemplate.menu.iteminteractive.iteminteractives.ItemKit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -10,22 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ilicos, Théo S. on 16/08/2015.
+ * Created by ilicos, ThÃ©o S. on 16/08/2015.
  */
-public class InventoryMenuKitNoVIPSelection extends InventoryMenu {
+public class InventoryMenuKitNoVIPSelection extends InventoryMenuKitSelection {
 
     public InventoryMenuKitNoVIPSelection(Player player){
-        super();
-    }
-
-    @Override
-    protected void setupName() {
-        name = "Kit selection";
+        super(player);
     }
 
     @Override
     protected void setupCaseNumber() {
-        caseNumber = 9;
+        caseNumber = Kits.getNoVIPKits().size();
     }
 
     @Override

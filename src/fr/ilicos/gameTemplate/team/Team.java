@@ -1,6 +1,6 @@
 package fr.ilicos.gameTemplate.team;
 
-import fr.ilicos.gameTemplate.menu.iteminteractive.iteminteractives.ItemTeam;
+import fr.ilicos.gameTemplate.itemInteractive.iteminteractives.ItemTeam;
 import fr.ilicos.gameTemplate.player.PlayerContainer;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by ilicos, Théo S. on 12/08/2015.
+ * Created by ilicos, ThÃ©o S. on 12/08/2015.
  */
 public class Team implements ConfigurationSerializable {
     private static final String SPAWN = "spawn";
@@ -20,13 +20,26 @@ public class Team implements ConfigurationSerializable {
     private static final String ID_TEAM = "id";
     private static final String ITEM_SELECTION = "itemSelection";
 
+    private static List<Team> teams = new ArrayList<>();
+    public static void setTeams(List<Team> teams2){
+        teams = teams2;
+    }
+
+    public static List<Team> getTeams(){
+        return teams;
+    }
+
+    public int size(){
+        return players.size();
+    }
+
     private static int maxPlayers = 1;
 
     public static void setMaxPlayers(int newMaxPlayers){
         maxPlayers = newMaxPlayers;
     }
 
-    private final List<PlayerContainer> playerContainers = new ArrayList<>();
+    private final List<PlayerContainer> players = new ArrayList<>();
     private final int ID;
     private Location spawn;
     private TeamColor teamColor;
@@ -46,16 +59,24 @@ public class Team implements ConfigurationSerializable {
     public void addPlayer(Player player){
         PlayerContainer playerContainer = PlayerContainer.getPlayerContainerFromPlayer(player);
 
-        if (playerContainers.size() < maxPlayers){
-            if (!playerContainers.contains(playerContainer)){
-                player.sendMessage("Vous avez rejoint l'équipe " + getTeamColor().name());
-                playerContainers.add(playerContainer);
+        if (!players.contains(playerContainer)){
+            if (!isComplete()){
+                player.sendMessage("Vous avez rejoint l'Ã©quipe " + getTeamColor() + getTeamColor().name());
+                players.add(playerContainer.transformToWaitingTeamedPlayer(this));
             } else {
-                player.sendMessage("Vous êtes déjà dans l'équipe " + getTeamColor().name());
+                player.sendMessage("Ã‰quipe pleine!");
             }
         } else {
-            player.sendMessage("Équipe pleine!");
+            player.sendMessage("Vous Ãªtes dÃ©jÃ  dans l'Ã©quipe " + getTeamColor() + getTeamColor().name());
         }
+    }
+
+    public void removePlayer(PlayerContainer playerContainer){
+        players.remove(playerContainer);
+    }
+
+    public boolean isComplete(){
+        return (size() >= maxPlayers);
     }
 
     public TeamColor getTeamColor() {
@@ -72,6 +93,9 @@ public class Team implements ConfigurationSerializable {
 
     public int getID() {
         return ID;
+    }
+    public List<PlayerContainer> getPlayers(){
+        return new ArrayList<>(players);
     }
 
     @Override

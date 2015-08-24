@@ -1,4 +1,4 @@
-package fr.ilicos.gameTemplate.menu.iteminteractive;
+package fr.ilicos.gameTemplate.itemInteractive;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ilicos, Théo S. on 15/08/2015.
+ * Created by ilicos, ThÃ©o S. on 15/08/2015.
  */
 public abstract class ItemInteractive extends ItemStack {
     protected ItemInteractive(String displayName, Material material, int count){

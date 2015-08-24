@@ -1,6 +1,6 @@
-package fr.ilicos.gameTemplate.menu.iteminteractive.iteminteractives;
+package fr.ilicos.gameTemplate.itemInteractive.iteminteractives;
 
-import fr.ilicos.gameTemplate.menu.iteminteractive.ItemInteractive;
+import fr.ilicos.gameTemplate.itemInteractive.ItemInteractive;
 import fr.ilicos.gameTemplate.team.Team;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 /**
- * Created by ilicos, Théo S. on 16/08/2015.
+ * Created by ilicos, ThÃ©o S. on 16/08/2015.
  */
 public class ItemTeam extends ItemInteractive {
     private final Team team;

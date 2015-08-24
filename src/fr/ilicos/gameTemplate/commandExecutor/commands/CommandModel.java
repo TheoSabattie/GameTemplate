@@ -1,10 +1,10 @@
-package fr.ilicos.gameTemplate.commandExecutor;
+package fr.ilicos.gameTemplate.commandExecutor.commands;
 
 import fr.ilicos.gameTemplate.mode.config.ArgType;
 import org.bukkit.entity.Player;
 
 /**
- * Created by ilicos, Théo S. on 14/08/2015.
+ * Created by ilicos, ThÃ©o S. on 14/08/2015.
  */
 public abstract class CommandModel {
     private final String commandLabel;

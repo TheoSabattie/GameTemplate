@@ -1,7 +1,7 @@
 package fr.ilicos.gameTemplate.listener;
 
-import fr.ilicos.gameTemplate.menu.iteminteractive.ItemInteractive;
-import fr.ilicos.gameTemplate.menu.iteminteractive.ItemInteractiveRegister;
+import fr.ilicos.gameTemplate.itemInteractive.ItemInteractive;
+import fr.ilicos.gameTemplate.itemInteractive.ItemInteractiveRegister;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Created by ilicos, Théo S. on 15/08/2015.
+ * Created by ilicos, ThÃ©o S. on 15/08/2015.
  */
 public class ItemStackInteractListener implements Listener {
     @EventHandler
@@ -30,25 +30,24 @@ public class ItemStackInteractListener implements Listener {
                 event.setCancelled(true);
                 item.onInteract(player);
             } else {
-                player.sendMessage("pas repéré dans la map");
+                player.sendMessage("pas repÃ©rÃ© dans la map");
             }
         }
     }
 
     @EventHandler
     public void onPlayerInteractEvent (PlayerInteractEvent event){
-        Action action       = event.getAction();
         Player player       = event.getPlayer();
         ItemStack itemStack = player.getItemInHand();
 
         if (itemStack != null){
             ItemInteractive item = ItemInteractiveRegister.getInstance().getItemInteractiveFromItem(itemStack);
+            Action action        = event.getAction();
 
-            if (item != null){
+
+            if (item != null && (action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR)){
                 event.setCancelled(true);
                 item.onInteract(player);
-            } else {
-                player.sendMessage("pas repéré dans la map");
             }
         }
     }

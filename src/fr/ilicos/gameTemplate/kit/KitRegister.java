@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by ilicos, Théo S. on 15/08/2015.
+ * Created by ilicos, ThÃ©o S. on 15/08/2015.
  */
 public class KitRegister {
     private static KitRegister instance;

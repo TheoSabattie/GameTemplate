@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Wool;
 
 /**
- * Created by ilicos, Théo S. on 18/08/2015.
+ * Created by ilicos, ThÃ©o S. on 18/08/2015.
  */
 public enum TeamColor {
     BLUE(ChatColor.BLUE, (new Wool(DyeColor.BLUE)).toItemStack(1)),

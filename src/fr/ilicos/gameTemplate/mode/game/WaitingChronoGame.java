@@ -3,10 +3,12 @@ package fr.ilicos.gameTemplate.mode.game;
 import fr.ilicos.gameTemplate.mode.config.Config;
 import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.scheduler.ChronoStarterScheduler;
+import fr.ilicos.gameTemplate.scoreboard.ScoreboardManager;
+import fr.ilicos.gameTemplate.scoreboard.tab.TabWaitingChrono;
 import org.bukkit.Bukkit;
 
 /**
- * Created by ilicos, Théo S. on 09/08/2015.
+ * Created by ilicos, ThÃ©o S. on 09/08/2015.
  */
 public class WaitingChronoGame extends AbstractGame{
     private final ChronoStarterScheduler chronoStarter = new ChronoStarterScheduler(new ChronoStarterScheduler.Delegate() {
@@ -14,10 +16,12 @@ public class WaitingChronoGame extends AbstractGame{
         public void onChronoFinished() {
             gameMode.setupGame();
         }
-    }, (int) Config.DELAY_BEFORE_START.getValue());
+    }, (int) Config.DELAY_BEFORE_START.getValue(), TabWaitingChrono.getInstance());
 
     public WaitingChronoGame(GameMode gameMode) {
         super(gameMode);
+        ScoreboardManager.getInstance().setTab(TabWaitingChrono.getInstance());
+        chronoStarter.start();
     }
 
     @Override
@@ -34,5 +38,6 @@ public class WaitingChronoGame extends AbstractGame{
     @Override
     public void destroy() {
         chronoStarter.stop();
+        TabWaitingChrono.getInstance().destroy();
     }
 }

@@ -1,6 +1,7 @@
 package fr.ilicos.gameTemplate.commandExecutor;
 
 import fr.ilicos.gameTemplate.MainManager;
+import fr.ilicos.gameTemplate.commandExecutor.commands.*;
 import fr.ilicos.gameTemplate.mode.config.ArgType;
 import fr.ilicos.gameTemplate.mode.config.Config;
 import org.bukkit.Bukkit;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by ilicos, Théo S. on 07/08/2015.
+ * Created by ilicos, ThÃ©o S. on 07/08/2015.
  */
 public class ConfigCommandExecutor extends AbstractCommandExecutor {
     private Config config;
@@ -50,6 +51,8 @@ public class ConfigCommandExecutor extends AbstractCommandExecutor {
             }
         };
 
+        commands.put(commandModel.getCommandLabel(), commandModel);
+        commandModel = new CommandArchitecte();
         commands.put(commandModel.getCommandLabel(), commandModel);
     }
 

@@ -1,11 +1,12 @@
-package fr.ilicos.gameTemplate.commandExecutor;
+package fr.ilicos.gameTemplate.commandExecutor.commands;
 
 import fr.ilicos.gameTemplate.mode.config.ArgType;
 import fr.ilicos.gameTemplate.mode.config.Config;
+import fr.ilicos.gameTemplate.scoreboard.tab.TabConfig;
 import org.bukkit.entity.Player;
 
 /**
- * Created by ilicos, Théo S. on 14/08/2015.
+ * Created by ilicos, ThÃ©o S. on 14/08/2015.
  */
 public class CommandConfigModel extends CommandModel {
     private Config config;
@@ -22,7 +23,10 @@ public class CommandConfigModel extends CommandModel {
     @Override
     protected boolean isSuccessCommand(String[] args, Player player) {
         if (config!= null){
-            return config.onArgs(args, player);
+            if (config.onArgs(args, player)){
+                TabConfig.getInstance().onConfigChange(config, config.getValue());
+                return true;
+            }
         }
 
         return false;

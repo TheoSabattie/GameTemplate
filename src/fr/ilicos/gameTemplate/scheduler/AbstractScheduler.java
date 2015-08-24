@@ -4,10 +4,10 @@ import fr.ilicos.gameTemplate.MainManager;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * Created by ilicos, Théo S. on 09/08/2015.
+ * Created by ilicos, ThÃ©o S. on 09/08/2015.
  */
 public abstract class AbstractScheduler extends BukkitRunnable {
-    private int stick;
+    protected int stick;
 
     public AbstractScheduler(){
         setupStick();

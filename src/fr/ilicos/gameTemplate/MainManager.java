@@ -7,22 +7,32 @@ import fr.ilicos.gameTemplate.mode.config.ConfigMode;
 import fr.ilicos.gameTemplate.mode.game.GameMode;
 import fr.ilicos.gameTemplate.player.PlayerContainer;
 import fr.ilicos.gameTemplate.scheduler.AbstractScheduler;
+import fr.ilicos.gameTemplate.scoreboard.ScoreboardManager;
+import fr.ilicos.gameTemplate.team.Team;
 import fr.ilicos.gameTemplate.utils.Destroyable;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
+import java.io.File;
+import java.util.List;
+
 /**
- * Created by ilicos, Théo S. on 07/08/2015.
+ * Created by ilicos, ThÃ©o S. on 07/08/2015.
  */
 public class MainManager extends Destroyable {
+    private static final String WORLD_NAME = "world";
+
     private final Listener connectionDisconnectionListener = new ConnectionDisconnectionListener() {
         @Override
         public void onPlayerConnection(PlayerContainer playerContainer) {
             currentMode.onPlayerConnection(playerContainer);
+            ScoreboardManager.getInstance().setScoreboardPlayer(playerContainer.getPlayer());
         }
 
         @Override
@@ -44,11 +54,15 @@ public class MainManager extends Destroyable {
 
     private MainManager() {
         reloadPrevention();
+        cleanData();
     }
 
     private void reloadPrevention() {
+        PlayerContainer playerContainer;
+
         for (Player player : Bukkit.getOnlinePlayers()){
-            new PlayerContainer(player);
+            playerContainer = new PlayerContainer(player);
+            ScoreboardManager.getInstance().setScoreboardPlayer(playerContainer.getPlayer());
         }
     }
 
@@ -63,16 +77,6 @@ public class MainManager extends Destroyable {
             setupConfigMode();
         }
     }
-
-    /*public Config getConfig(){
-        Object object = getFileConfig().get("config");
-
-        if (object != null && object instanceof Config){
-            return (Config) object;
-        } else {
-            return new Config();
-        }
-    }*/
 
     public FileConfiguration getFileConfig(){
         FileConfiguration fileConfig = plugin.getConfig();
@@ -105,6 +109,40 @@ public class MainManager extends Destroyable {
         /**
          * Set all static variable on classes
          */
+        Location location = (Location)Config.WAITING_ROOM_SPAWN.getValue();
+        getWorld().setSpawnLocation(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        Team.setMaxPlayers((int)Config.PLAYERS_TEAM_NUMBER.getValue());
+        Team.setTeams((List) Config.TEAMS.getValue());
+
+        /**
+         * If you want remove Craft Recipe and add your recipe :
+         */
+        /*plugin.getServer().clearRecipes();
+        ItemStack diamondSword = new ItemStack(Material.STONE_SWORD, 1);
+
+        ShapedRecipe diamondSwordRecipe = new ShapedRecipe(diamondSword);
+        diamondSwordRecipe.shape("o", "|");
+
+        diamondSwordRecipe.setIngredient('|', Material.STICK);
+        diamondSwordRecipe.setIngredient('o', Material.COBBLESTONE);
+        plugin.getServer().addRecipe(diamondSwordRecipe);
+        */
+    }
+
+    private World getWorld(){
+        return Bukkit.getWorld(WORLD_NAME);
+    }
+
+    private void cleanData(){
+        File playerFilesDir = new File(getWorld().getWorldFolder().getAbsolutePath() + "/playerdata");
+        if(playerFilesDir.isDirectory()){
+            String[] playerDats = playerFilesDir.list();
+
+            for (int i = 0; i < playerDats.length; i++) {
+                File datFile = new File(playerFilesDir, playerDats[i]);
+                datFile.delete();
+            }
+        }
     }
 
     public void addListener (Listener listener){

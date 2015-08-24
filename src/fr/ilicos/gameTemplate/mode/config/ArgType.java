@@ -3,7 +3,7 @@ package fr.ilicos.gameTemplate.mode.config;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Created by ilicos, Théo S. on 14/08/2015.
+ * Created by ilicos, ThÃ©o S. on 14/08/2015.
  */
 public enum ArgType {
     MIXTE {

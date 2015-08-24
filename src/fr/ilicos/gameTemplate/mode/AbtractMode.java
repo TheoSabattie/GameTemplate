@@ -7,7 +7,7 @@ import fr.ilicos.gameTemplate.player.PlayerContainer;
 import org.bukkit.command.CommandExecutor;
 
 /**
- * Created by ilicos, Théo S. on 07/08/2015.
+ * Created by ilicos, ThÃ©o S. on 07/08/2015.
  */
 public abstract class AbtractMode extends Destroyable implements ConnectionDisconnection {
     protected CommandExecutor commandExecutor;
