@@ -54,6 +54,8 @@ public class GameMode extends AbtractMode {
 
     @Override
     public void destroy() {
+        destroyCurrentGame();
+        ScoreboardManager.getInstance().destroy();
         MainManager.getInstance().removeListener(listener);
     }
 
